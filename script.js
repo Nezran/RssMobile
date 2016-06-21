@@ -56,45 +56,39 @@ var categories = [
 //}
 
 
-$(document).on('pageinit', function () {
 
-    var url = 'http://www.20min.ch/rss/rss.tmpl?type=channel&get=6&lang=ro';
-    //
-    //feednami.load(url,function(result){
-    //    console.log(result);
-    //    if(result.error) {
-    //        console.log(result.error);
-    //    } else {
-    //        var entries = result.feed.entries;
-    //        for(var i = 0; i < entries.length; i++){
-    //            var entry = entries[i];
-    //            console.dir(entry);
-    //        }
-    //    }
-    //});
-
-});
-
-$(document).on("pageshow", "#articles", function(){
-
-
-
-});
 
 $(document).on("pageshow", "#articles", function () { // When entering pagetwo
 
-    $(this).html("loading...");
+    // $(this).html("loading...");
+    var template = $(this).html();
+    var content = $(this);
     feednami.load(sessionStorage.Url,function(result){
-        console.log(result);
+        // console.log(template);
+        // console.log(result);
         if(result.error) {
             console.log(result.error);
         } else {
-            var template = result;
-            $(this).html(Mustache.render(template,result));
+            data = result.feed.entries;
+            Rsscontent = {
+                data: data
+            };
+            console.log(Rsscontent);
+            content.html(Mustache.render(template,Rsscontent));
         }
     });
+    //alert('Parameter url: ' + sessionStorage.Url);
 
+    //console.log(data);
+    //alert(data.prevPage.attr('id'));
+});
 
+$(document).on("pageshow", "#article", function () { // When entering pagetwo
+
+    var template = $(this).html();
+    var content = '<iframe width="100%" height="1000px" src="'+sessionStorage.Url+'"></iframe>';
+    // $(this).html(content);
+    $('#iframe1').contents().find('html').attr('src',sessionStorage.Article);
 
     //alert('Parameter url: ' + sessionStorage.Url);
 
@@ -102,19 +96,19 @@ $(document).on("pageshow", "#articles", function () { // When entering pagetwo
     //alert(data.prevPage.attr('id'));
 });
 
-
-
 $(document).on("pageshow", "#index", function () { // When entering pagetwo
 
     data = {
         categories: categories
     };
 
+    console.log(data);
+
     $(this).html(Mustache.render($(this).html(),data));
 
     //$(this).find('#render').html(Mustache.render(template['index'], {categories: categories}));
 });
 
-console.log($test.text());
+// console.log($test.text());
 
 
