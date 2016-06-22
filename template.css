@@ -1,0 +1,16 @@
+.gridarticles{
+    width: calc(33% - 22px);
+    float: left;
+    min-height: 500px;
+    padding: 5px;
+    border: 1px solid #3E3E3E;;
+    margin: 5px;
+
+}
+.gridarticles img{
+    width: 100%;
+}
+
+.favoris{
+    max-width: 200px;
+}

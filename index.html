@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
+    <link rel="stylesheet" href="template.css"/>
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script src="https://cdn.rawgit.com/sekando/feednami-client/master/releases/1.0.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
@@ -17,7 +18,8 @@
 
     <div data-role="header">
         <h1>Accueil</h1>
-    </div><!-- /header -->
+    </div>
+    <!-- /header -->
 
     <!--<div data-template="index">-->
     <!--<ul>-->
@@ -36,7 +38,7 @@
         <ul class="cat" data-theme="b" data-role="listview" data-filter="true"
             data-filter-placeholder="Rechercher une catégorie" data-inset="true">
             {{#categories}}
-            <li><a href="#articles" data-url="{{url}}" onclick="sessionStorage.Url='{{url}}'">{{name}}</a></li>
+            <li><a class="articles" href="#articles" data-url="{{url}}">{{name}}</a></li>
             {{/categories}}
         </ul>
 
@@ -52,32 +54,34 @@
 <div data-role="page" id="articles" data-theme="b">
 
     <div data-role="header">
+        <a href="#index" data-direction="reverse">Retour</a>
         <h1>Articles</h1>
     </div><!-- /header -->
 
     <div data-role="content">
         <h2>Les articles</h2>
-        <ul data-theme="b" data-role="listview" data-inset="true">
+        <!--<ul data-theme="b" data-role="listview" data-inset="true">-->
+        <!--{{#data}}-->
+        <!--<li>-->
+        <!--<a href="#article" onclick="sessionStorage.Article='{{link}}'">-->
+        <!--<img src="{{rss:image_big.#}}">-->
+        <!--<h2>{{title}}</h2>-->
+        <!--<p>{{summary}}</p>-->
+        <!--</a>-->
+        <!--</li>-->
+        <!--{{/data}}-->
+        <!--</ul>-->
+        <div class="ui-grid-b ui-responsive">
             {{#data}}
-            <li>
-                <a href="#article" onclick="sessionStorage.Article='{{link}}'">
+
+                <div class="gridarticles">
+                    <a class="article" href="#article" data-url="{{link}}">
                     <img src="{{rss:image_big.#}}">
                     <h2>{{title}}</h2>
                     <p>{{summary}}</p>
-                </a>
-            </li>
-            {{/data}}
-        </ul>
-        <div class="">
-            {{#data}}
-            <a href="#article" onclick="sessionStorage.Article='{{link}}'">
-            <div class="" style="width: 33%; float: left;">
-                <img src="{{rss:image_big.#}}">
-                <h2>{{title}}</h2>
-                <p>{{summary}}</p>
-                <input type="button" value="Hmm">
-            </div>
-            </a>
+                    </a>
+                    <a href="#" class="favoris ui-btn ui-icon-heart ui-btn-icon-left">Ajouter au favoris</a>
+                </div>
             {{/data}}
         </div>
 
@@ -92,6 +96,7 @@
 <div data-role="page" id="article" data-theme="a">
 
     <div data-role="header">
+        <a href="#index" data-direction="reverse">Retour</a>
         <h1>Articles</h1>
     </div><!-- /header -->
 
@@ -108,6 +113,8 @@
         <h4>Page Footer</h4>
     </div><!-- /footer -->
 </div><!-- /page -->
+
+
 </body>
 </html>
 

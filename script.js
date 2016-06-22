@@ -55,18 +55,36 @@ var categories = [
 //    $('#resultxml').html($data);
 //}
 
+$('#articles').live("pageinit", function () { // or pageshow
+
+//// $(this).html("loading...");
+//    var template = $(this).html();
+//    var content = $(this);
+//    feednami.load(sessionStorage.Articles, function (result) {
+//        // console.log(template);
+//        // console.log(result);
+//        if (result.error) {
+//            console.log(result.error);
+//        } else {
+//            data = result.feed.entries;
+//            Rsscontent = {
+//                data: data
+//            };
+//            console.log(Rsscontent);
+//            content.html(Mustache.render(template, Rsscontent));
+//        }
+//    });
+});
 
 
+$(document).on("pageshow", "#articles", function (event) { // When entering pagetwo
 
-$(document).on("pageshow", "#articles", function () { // When entering pagetwo
+    //$(this).html("loading...");
 
-    // $(this).html("loading...");
-    var template = $(this).html();
+    //if(!sessionStorage.Template) sessionStorage.Template = $(this).html();
     var content = $(this);
-    feednami.load(sessionStorage.Url,function(result){
-        // console.log(template);
-        // console.log(result);
-        if(result.error) {
+    feednami.load(sessionStorage.Articles, function (result) {
+        if (result.error) {
             console.log(result.error);
         } else {
             data = result.feed.entries;
@@ -74,7 +92,7 @@ $(document).on("pageshow", "#articles", function () { // When entering pagetwo
                 data: data
             };
             console.log(Rsscontent);
-            content.html(Mustache.render(template,Rsscontent));
+            content.html(Mustache.render(window.template['articles'], Rsscontent));
         }
     });
     //alert('Parameter url: ' + sessionStorage.Url);
@@ -86,9 +104,9 @@ $(document).on("pageshow", "#articles", function () { // When entering pagetwo
 $(document).on("pageshow", "#article", function () { // When entering pagetwo
 
     var template = $(this).html();
-    var content = '<iframe width="100%" height="1000px" src="'+sessionStorage.Url+'"></iframe>';
+    var content = '<iframe width="100%" height="1000px" src="' + window.template['article'] + '"></iframe>';
     // $(this).html(content);
-    $('#iframe1').contents().find('html').attr('src',sessionStorage.Article);
+    $('#iframe1').contents().find('html').attr('src', window.template['article']);
 
     //alert('Parameter url: ' + sessionStorage.Url);
 
@@ -104,10 +122,91 @@ $(document).on("pageshow", "#index", function () { // When entering pagetwo
 
     console.log(data);
 
-    $(this).html(Mustache.render($(this).html(),data));
+    $(this).html(Mustache.render($(this).html(), data));
 
     //$(this).find('#render').html(Mustache.render(template['index'], {categories: categories}));
 });
+$(document).on('pageinit', function () {
+
+
+    window.template = [];
+
+    $('[data-role=page]').each(function () {
+
+        var id = $(this).attr("id");
+
+        var content = $(this).html();
+
+        //console.log(this.getAttribute("id"));
+
+        //console.log(content);
+
+
+        window.template[id] = content;
+
+        //console.log(window.template);
+
+        //sessionStorage.Templateting[id,content];
+    });
+
+    $('#index').on('click', 'a.articles', function () {
+
+        sessionStorage.Articles = this.getAttribute('data-url');
+
+    });
+
+    $('#articles').on('click', 'a.article', function () {
+
+        sessionStorage.Article = this.getAttribute('data-url');
+        console.log(sessionStorage.Article);
+
+    });
+
+    window.favoris = [];
+
+    $('#articles').on('click', 'a.favoris', function () {
+
+
+        //localStorage.setItem("favoris", JSON.stringify(favoris));
+        //console.log(localStorage.getItem("favoris"));
+
+        var data = $(this).parent().html();
+
+        //console.log(data);
+
+        var all = JSON.parse(localStorage.favoris);
+
+        var jsonify = {item: data};
+
+        //console.log(jsonify);
+
+        localStorage.favoris = JSON.stringify(jsonify);
+
+        console.log(JSON.parse(localStorage.favoris));
+
+        //var datas = JSON.parse(sessionStorage.favoris);
+        //
+        //var favoris = {item: data};
+        //
+        //
+        //console.log(sessionStorage.favoris);
+
+
+        //Favorise.add_value_in("favoris", JSON.stringify(favoris));
+        //
+        //console.log(Favorise.get_item("favoris"));
+        //
+        //sessionStorage.favoris = JSON.stringify(favoris);
+        //console.log(sessionStorage.favoris);
+        ////Favorise.getItem("favoris");
+
+
+        //sessionStorage.Article = this.getAttribute('data-url');
+
+    });
+
+});
+
 
 // console.log($test.text());
 
