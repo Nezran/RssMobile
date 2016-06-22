@@ -120,7 +120,7 @@ $(document).on("pageshow", "#index", function () { // When entering pagetwo
         categories: categories
     };
 
-    console.log(data);
+    //console.log(data);
 
     $(this).html(Mustache.render($(this).html(), data));
 
@@ -170,19 +170,51 @@ $(document).on('pageinit', function () {
         //localStorage.setItem("favoris", JSON.stringify(favoris));
         //console.log(localStorage.getItem("favoris"));
 
-        var data = $(this).parent().html();
+
+        var data = [];
+        data = $(this).parent().html();
 
         //console.log(data);
 
-        var all = JSON.parse(localStorage.favoris);
-
+        //var all = JSON.parse(localStorage.favoris);
         var jsonify = {item: data};
+
+        if(localStorage.favoris == null){
+            add_item(jsonify);
+        }else{
+            var all = [];
+            all = JSON.parse(sessionStorage.favoris);
+            console.log(all);
+
+            alert("no");
+
+        }
+
+
+
+        function add_item(value){
+            localStorage.favoris = JSON.stringify(jsonify);
+            console.log(localStorage.favoris);
+        }
+
+
+
+        //if(sessionStorage.favoris == null){
+        //
+        //}else{
+        //    var all = JSON.parse(sessionStorage.favoris);
+        //    console.log("ici"+all);
+        //    all.push(jsonify);
+        //}
+
+
+
 
         //console.log(jsonify);
 
-        localStorage.favoris = JSON.stringify(jsonify);
+        //localStorage.favoris = JSON.stringify(jsonify);
 
-        console.log(JSON.parse(localStorage.favoris));
+        //console.log(localStorage.favoris);
 
         //var datas = JSON.parse(sessionStorage.favoris);
         //
