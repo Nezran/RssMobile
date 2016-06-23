@@ -18,8 +18,8 @@
 
     <div data-role="header">
         <h1>Accueil</h1>
-        <a href="#favoris" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-heart">Favoris</a>
-
+        <a href="#favoris"
+           class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-heart">Favoris</a>
 
 
     </div>
@@ -60,7 +60,8 @@
     <div data-role="header">
         <a href="#index" data-direction="reverse">Retour</a>
         <h1>Articles</h1>
-        <a href="#favoris" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-heart">Favoris</a>
+        <a href="#favoris"
+           class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-heart">Favoris</a>
     </div><!-- /header -->
 
     <div data-role="content">
@@ -68,14 +69,14 @@
         <div class="ui-grid-b ui-responsive">
             {{#data}}
 
-                <div class="gridarticles">
-                    <a class="article" href="#article" data-url="{{link}}">
+            <div class="gridarticles">
+                <a class="article" href="#article" data-url="{{index}}">
                     <img src="{{rss:image_big.#}}">
                     <h2>{{title}}</h2>
                     <p>{{summary}}</p>
-                    </a>
-                    <a href="#" class="favoris ui-btn ui-icon-heart ui-btn-icon-left">Ajouter au favoris</a>
-                </div>
+                </a>
+                <a href="#" class="favoris ui-btn ui-icon-heart ui-btn-icon-left">Ajouter au favoris</a>
+            </div>
             {{/data}}
         </div>
 
@@ -87,21 +88,23 @@
     </div><!-- /footer -->
 </div><!-- /page -->
 
-<div data-role="page" id="article" data-theme="a">
+<div data-role="page" id="article" data-theme="b">
 
     <div data-role="header">
         <a href="#index" data-direction="reverse">Retour</a>
         <h1>Articles</h1>
-        <a href="#favoris" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-heart">Favoris</a>
-    </div><!-- /header -->
+        <div>
+            {{#data}}
 
-    <div data-role="content">
-        <iframe id="iframe1" width="100%" height="500px">
-
-        </iframe>
-        <p>Article détail ?</p>
-
-        <p><a href="#index">Back to index</a></p>
+            <div>
+                <img src="{{rss:image_big.#}}">
+                <h2>{{title}}</h2>
+                <p>{{summary}}</p>
+                <a href="#" class="favoris ui-btn ui-icon-heart ui-btn-icon-left">Ajouter au favoris</a>
+                <a href="{{link}}" target="_blank" class="allarticle ui-btn ui-icon-plus ui-btn-icon-left">Voir l'article complet</a>
+            </div>
+            {{/data}}
+        </div>
     </div><!-- /content -->
 
     <div data-role="footer">
@@ -112,16 +115,24 @@
 <div data-role="page" id="favoris" data-theme="b">
 
     <div data-role="header">
-        <a href="#index" data-direction="reverse">Retour</a>
-        <h1>Articles</h1>
+        <a href="index.html">Retour</a>
+        <h1>Favoris</h1>
     </div><!-- /header -->
 
     <div data-role="content">
+
+
         {{#items}}
-        <div class="gridarticles">
-             {{{.}}}
+            <div class="gridarticles">
+                {{{.}}}
             </div>
         {{/items}}
+
+        {{^items}}
+        <p>Aucun favoris</p>
+        {{/items}}
+
+        <a class="delete_favoris ui-btn ui-icon-delete ui-btn-icon-left">Vider les favoris</a>
 
     </div><!-- /content -->
 

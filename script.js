@@ -82,48 +82,59 @@ $(document).on("pageshow", "#articles", function (event) { // When entering page
     //$(this).html("loading...");
 
     //if(!sessionStorage.Template) sessionStorage.Template = $(this).html();
+
+    sessionStorage.removeItem("Article");
     var content = $(this);
+    var data = {};
     feednami.load(sessionStorage.Articles, function (result) {
         if (result.error) {
             console.log(result.error);
         } else {
-            data = result.feed.entries;
-            Rsscontent = {
-                data: data
+            data = {
+                data: result.feed.entries,
+                index: function () {
+                    return data.data.indexOf(this);
+                }
             };
-            console.log(Rsscontent);
-            content.html(Mustache.render(window.template['articles'], Rsscontent));
+
+            content.html(Mustache.render(window.template['articles'], data));
         }
     });
-    //alert('Parameter url: ' + sessionStorage.Url);
-
-    //console.log(data);
-    //alert(data.prevPage.attr('id'));
 });
 
 $(document).on("pageshow", "#article", function () { // When entering pagetwo
 
-    var template = $(this).html();
-    var content = '<iframe width="100%" height="1000px" src="' + window.template['article'] + '"></iframe>';
-    // $(this).html(content);
-    $('#iframe1').contents().find('html').attr('src', window.template['article']);
+    var content = $(this);
+    var data = {};
+    feednami.load(sessionStorage.Articles, function (result) {
 
-    //alert('Parameter url: ' + sessionStorage.Url);
+        if (result.error) {
+            console.log(result.error);
+        } else {
+            data = {
+                data: result.feed.entries[sessionStorage.Article]
 
-    //console.log(data);
-    //alert(data.prevPage.attr('id'));
+            };
+
+            content.html(Mustache.render(window.template['article'], data));
+        }
+    });
+
+});
+
+jQuery("#article").on("pagehide", function (event) {
+    sessionStorage.Article = null;
 });
 
 $(document).on("pageshow", "#favoris", function () { // When entering pagetwo
 
-
-
-    console.log(JSON.parse(localStorage.favoris));
-    $(this).html(Mustache.render($(this).html(), JSON.parse(localStorage.favoris)));
-
+    $(this).html(Mustache.render($(this).html(), JSON.parse(localStorage.favoris || "{}")));
+    window.refresh();
 });
 
 $(document).on("pageshow", "#index", function () { // When entering pagetwo
+
+    sessionStorage.removeItem("Articles");
 
     data = {
         categories: categories
@@ -141,23 +152,10 @@ $(document).on('pageinit', function () {
 
 
     window.template = [];
-
     $('[data-role=page]').each(function () {
-
         var id = $(this).attr("id");
-
         var content = $(this).html();
-
-        //console.log(this.getAttribute("id"));
-
-        //console.log(content);
-
-
         window.template[id] = content;
-
-        //console.log(window.template);
-
-        //sessionStorage.Templateting[id,content];
     });
 
     $('#index').on('click', 'a.articles', function () {
@@ -169,18 +167,23 @@ $(document).on('pageinit', function () {
     $('#articles').on('click', 'a.article', function () {
 
         sessionStorage.Article = this.getAttribute('data-url');
-        console.log(sessionStorage.Article);
 
     });
+
+    $('#favoris').on('click', 'a.delete_favoris', function () {
+
+        localStorage.removeItem("favoris");
+        location.reload();
+
+
+    });
+
+
+
 
     window.favoris = [];
 
     $('#articles').on('click', 'a.favoris', function () {
-
-
-        //localStorage.setItem("favoris", JSON.stringify(favoris));
-        //console.log(localStorage.getItem("favoris"));
-
 
         var data = [];
         data = $(this).parent().html();
@@ -192,31 +195,24 @@ $(document).on('pageinit', function () {
 
         //console.log(jsonify);
 
-        if(localStorage.favoris == null){
+        if (localStorage.favoris == null) {
             add_item(jsonify);
-        }else{
+        } else {
             var all = [];
             all = JSON.parse(localStorage.favoris);
             var doublon = false;
-            $.each(all.items, function (index, value){
-                if(value == data){
+            $.each(all.items, function (index, value) {
+                if (value == data) {
                     doublon = true;
                 }
             });
-
-            if(doublon == false){
+            if (doublon == false) {
                 all.items.push(data);
                 add_item(all);
             }
-
-
-            //console.log(localStorage.favoris);
-            //alert("no");
         }
 
-
-
-        function add_item(value){
+        function add_item(value) {
             localStorage.favoris = JSON.stringify(value);
             console.log(localStorage.favoris);
         }
