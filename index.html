@@ -18,6 +18,10 @@
 
     <div data-role="header">
         <h1>Accueil</h1>
+        <a href="#favoris" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-heart">Favoris</a>
+
+
+
     </div>
     <!-- /header -->
 
@@ -56,21 +60,11 @@
     <div data-role="header">
         <a href="#index" data-direction="reverse">Retour</a>
         <h1>Articles</h1>
+        <a href="#favoris" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-heart">Favoris</a>
     </div><!-- /header -->
 
     <div data-role="content">
         <h2>Les articles</h2>
-        <!--<ul data-theme="b" data-role="listview" data-inset="true">-->
-        <!--{{#data}}-->
-        <!--<li>-->
-        <!--<a href="#article" onclick="sessionStorage.Article='{{link}}'">-->
-        <!--<img src="{{rss:image_big.#}}">-->
-        <!--<h2>{{title}}</h2>-->
-        <!--<p>{{summary}}</p>-->
-        <!--</a>-->
-        <!--</li>-->
-        <!--{{/data}}-->
-        <!--</ul>-->
         <div class="ui-grid-b ui-responsive">
             {{#data}}
 
@@ -98,6 +92,7 @@
     <div data-role="header">
         <a href="#index" data-direction="reverse">Retour</a>
         <h1>Articles</h1>
+        <a href="#favoris" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-heart">Favoris</a>
     </div><!-- /header -->
 
     <div data-role="content">
@@ -114,29 +109,28 @@
     </div><!-- /footer -->
 </div><!-- /page -->
 
+<div data-role="page" id="favoris" data-theme="b">
+
+    <div data-role="header">
+        <a href="#index" data-direction="reverse">Retour</a>
+        <h1>Articles</h1>
+    </div><!-- /header -->
+
+    <div data-role="content">
+        {{#items}}
+        <div class="gridarticles">
+             {{{.}}}
+            </div>
+        {{/items}}
+
+    </div><!-- /content -->
+
+    <div data-role="footer">
+        <h4>Page Footer</h4>
+    </div><!-- /footer -->
+</div><!-- /page -->
+
 
 </body>
 </html>
 
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-
-//        var url = 'http://www.20min.ch/rss/rss.tmpl?type=channel&get=6&lang=ro';
-//
-//        feednami.load(url,function(result){
-//            console.log(result);
-//            if(result.error) {
-//                console.log(result.error);
-//            } else {
-//                var entries = result.feed.entries;
-//                for(var i = 0; i < entries.length; i++){
-//                    var entry = entries[i];
-//                    console.dir(entry);
-//                }
-//            }
-//        });
-
-    });
-</script>

@@ -114,11 +114,22 @@ $(document).on("pageshow", "#article", function () { // When entering pagetwo
     //alert(data.prevPage.attr('id'));
 });
 
+$(document).on("pageshow", "#favoris", function () { // When entering pagetwo
+
+
+
+    console.log(JSON.parse(localStorage.favoris));
+    $(this).html(Mustache.render($(this).html(), JSON.parse(localStorage.favoris)));
+
+});
+
 $(document).on("pageshow", "#index", function () { // When entering pagetwo
 
     data = {
         categories: categories
     };
+
+    console.log(data);
 
     //console.log(data);
 
@@ -177,69 +188,43 @@ $(document).on('pageinit', function () {
         //console.log(data);
 
         //var all = JSON.parse(localStorage.favoris);
-        var jsonify = {item: data};
+        var jsonify = {items: [data]};
+
+        //console.log(jsonify);
 
         if(localStorage.favoris == null){
             add_item(jsonify);
         }else{
             var all = [];
-            all = JSON.parse(sessionStorage.favoris);
-            console.log(all);
+            all = JSON.parse(localStorage.favoris);
+            var doublon = false;
+            $.each(all.items, function (index, value){
+                if(value == data){
+                    doublon = true;
+                }
+            });
 
-            alert("no");
+            if(doublon == false){
+                all.items.push(data);
+                add_item(all);
+            }
 
+
+            //console.log(localStorage.favoris);
+            //alert("no");
         }
 
 
 
         function add_item(value){
-            localStorage.favoris = JSON.stringify(jsonify);
+            localStorage.favoris = JSON.stringify(value);
             console.log(localStorage.favoris);
         }
-
-
-
-        //if(sessionStorage.favoris == null){
-        //
-        //}else{
-        //    var all = JSON.parse(sessionStorage.favoris);
-        //    console.log("ici"+all);
-        //    all.push(jsonify);
-        //}
-
-
-
-
-        //console.log(jsonify);
-
-        //localStorage.favoris = JSON.stringify(jsonify);
-
-        //console.log(localStorage.favoris);
-
-        //var datas = JSON.parse(sessionStorage.favoris);
-        //
-        //var favoris = {item: data};
-        //
-        //
-        //console.log(sessionStorage.favoris);
-
-
-        //Favorise.add_value_in("favoris", JSON.stringify(favoris));
-        //
-        //console.log(Favorise.get_item("favoris"));
-        //
-        //sessionStorage.favoris = JSON.stringify(favoris);
-        //console.log(sessionStorage.favoris);
-        ////Favorise.getItem("favoris");
-
-
-        //sessionStorage.Article = this.getAttribute('data-url');
 
     });
 
 });
 
 
-// console.log($test.text());
 
 
